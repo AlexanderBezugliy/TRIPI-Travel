@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { HiBars3BottomRight } from "react-icons/hi2";
 import { TbAirBalloon } from "react-icons/tb";
 
+import { useAuth, useUser, SignInButton, UserButton } from "@clerk/nextjs";
 
 
 interface PropsNav { 
@@ -12,6 +13,9 @@ interface PropsNav {
 }
 const Nav = ({ openNav }: PropsNav) => {
     const [navBg, setNavBg] = useState(false)
+
+    const { isSignedIn } = useAuth(); 
+    const { user } = useUser();
 
     useEffect(() => {
         const handler = () => {
@@ -70,6 +74,20 @@ const Nav = ({ openNav }: PropsNav) => {
                         className="w-8 h-8 cursor-pointer text-white lg:hidden" 
                     />
                 </div>
+
+                {/* КНОПКА ВОЙТИ */}
+                {!isSignedIn ? (
+                        <SignInButton mode="modal">
+                            <button className="px-6 py-2 bg-yellow-400 text-black rounded-lg hover:bg-yellow-500 transition">
+                                Войти
+                            </button>
+                        </SignInButton>
+                    ) : (
+                        <div className="flex items-center gap-3">
+                            <p className="text-white hidden md:block">{user?.firstName || "Гость"}</p>
+                            <UserButton afterSignOutUrl="/" />
+                        </div>
+                    )}
             </div>
         </div>
     );

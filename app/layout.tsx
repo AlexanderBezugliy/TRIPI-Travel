@@ -4,6 +4,7 @@ import "./globals.css";
 import ResponsiveNav from "@/components/Home/NavBar/ResponsiveNav";
 import Footer from "@/components/Home/Footer/Footer";
 import ScrollToTop from "@/components/Helpers/ScrollToTop";
+import { ClerkProvider } from "@clerk/nextjs";
 
 
 
@@ -19,22 +20,23 @@ export const metadata: Metadata = {
 };
 
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${font.className}`}>
+    <ClerkProvider>
+        <html lang="en">
+            <body className={`${font.className}`}>
 
-        <ResponsiveNav />
-        {children}
-        <Footer />
-        
-        <ScrollToTop/>
-      </body>
-    </html>
+                <ResponsiveNav />
+                {children}
+                <Footer />
+                
+                <ScrollToTop/>
+            </body>
+        </html>
+    </ClerkProvider>
   );
 }
